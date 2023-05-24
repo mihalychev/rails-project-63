@@ -2,7 +2,7 @@
 
 module HexletCode
   class Tag
-    SINGLE_TAGS = %w[area base br col command embed hr img input keygen link meta param source track wbr]
+    SINGLE_TAGS = %w[area base br col command embed hr img input keygen link meta param source track wbr].freeze
 
     def self.build(tag, attributes = {})
       stringified_attributes = stringify_attributes(attributes)
@@ -14,14 +14,12 @@ module HexletCode
       end
     end
 
-    private
-
     def self.stringify_attributes(attributes)
       return '' if attributes.empty?
 
-      ' ' + attributes.map do |key, value|
+      attributes.map do |key, value|
         "#{key}=\"#{value}\""
-      end.join(' ')
+      end.join(' ').insert(0, ' ')
     end
   end
 end
