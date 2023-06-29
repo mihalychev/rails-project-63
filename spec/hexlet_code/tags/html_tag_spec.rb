@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe HexletCode::Tag do
+RSpec.describe HexletCode::Tags::HtmlTag do
   describe '.build' do
     context 'with single tag' do
       subject { described_class.build(tag, attributes) }

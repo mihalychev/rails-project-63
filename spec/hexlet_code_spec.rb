@@ -20,6 +20,7 @@ RSpec.describe HexletCode do
       subject(:form_for) do
         described_class.form_for(entity, attributes) do |f|
           f.input :name, as: 'text'
+          f.submit 'submit'
         end
       end
 

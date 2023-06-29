@@ -3,30 +3,50 @@
 module HexletCode
   class FormBuilder
     class << self
-      def build(entity, params, &block)
-        new(entity).form(params, &block)
+      def build(entity, params, template_engine = Tags::HtmlTag, &block)
+        new(entity, template_engine).form(params, &block)
       end
     end
 
-    def initialize(entity)
+    def initialize(entity, template_engine)
       @entity = entity
+      @body = ''
+
+      @template_engine = template_engine
     end
 
     def form(form_params, &block)
-      Tag.build('form', form_attributes(form_params)) do
+      @template_engine.build('form', form_attributes(form_params)) do
         block&.call(self)
       end
     end
 
     def input(field_name, params = {})
-      Tag.build(
+      @body += build_label(field_name)
+      @body += build_input(field_name, params)
+    end
+
+    def submit(value)
+      @body += build_submit(value)
+    end
+
+    private
+
+    def build_label(field_name)
+      @template_engine.build('label', for: field_name) { field_name.capitalize }
+    end
+
+    def build_input(field_name, params)
+      @template_engine.build(
         'input',
         name: field_name,
         **input_attributes(field_name, params)
       )
     end
 
-    private
+    def build_submit(value)
+      @template_engine.build('input', type: 'submit', value: value)
+    end
 
     def form_attributes(params)
       {
