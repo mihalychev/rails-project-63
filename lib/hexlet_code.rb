@@ -3,8 +3,9 @@
 module HexletCode
   autoload(:VERSION, 'hexlet_code/version.rb')
   autoload(:Tag, 'hexlet_code/tag.rb')
+  autoload(:FormBuilder, 'hexlet_code/form_builder.rb')
 
-  def self.form_for(_entity, params = {}, &_block)
-    Tag.build('form', action: params[:url], method: params[:method] || 'post', **params.except(:url, :method))
+  def self.form_for(entity, params = {}, &block)
+    FormBuilder.build(entity, params, &block)
   end
 end

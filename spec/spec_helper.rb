@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'hexlet_code'
+require 'support/helpers/fixture_helper'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
@@ -8,6 +9,8 @@ RSpec.configure do |config|
 
   # Disable RSpec exposing methods globally on `Module` and `main`
   config.disable_monkey_patching!
+
+  config.include Helpers::FixtureHelper
 
   config.expect_with :rspec do |c|
     c.syntax = :expect

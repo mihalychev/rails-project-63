@@ -15,5 +15,19 @@ RSpec.describe HexletCode do
     it 'returns html form tag with attributes' do
       expect(form_for).to eq '<form action="/users" method="post" abc="hehwtf"></form>'
     end
+
+    context 'with inputs' do
+      subject(:form_for) do
+        described_class.form_for(entity, attributes) do |f|
+          f.input :name, as: 'text'
+        end
+      end
+
+      let(:expected_html) { load_fixture('form.html') }
+
+      it 'returns html form with inputs' do
+        expect(form_for).to eq expected_html
+      end
+    end
   end
 end
