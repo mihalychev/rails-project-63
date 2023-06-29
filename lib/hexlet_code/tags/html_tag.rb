@@ -21,8 +21,8 @@ module HexletCode
         return '' if attributes.empty?
 
         attributes.map do |key, value|
-          "#{key}=\"#{value}\"" unless value.nil?
-        end.compact.join(' ').insert(0, ' ')
+          "#{key}=\"#{value}\""
+        end.join(' ').insert(0, ' ')
       end
     end
   end

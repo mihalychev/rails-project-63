@@ -3,8 +3,8 @@
 
 ## Example
 ```
-User = Struct.new(:name, :job, keyword_init: true)
-user = User.new job: 'hexlet'
+User = Struct.new(:name, keyword_init: true)
+user = User.new name: 'rob'
 
 HexletCode.form_for user do |f|
   f.input :name
@@ -14,9 +14,7 @@ end
 
 # <form action="#" method="post">
 #   <label for="name">Name</label>
-#   <input name="name" type="text">
-#   <label for="job">Job</label>
-#   <input name="job" type="text" value="hexlet">
+#   <input name="name" type="text" value="rob">
 #   <input type="submit" value="Save">
 # </form>
 ```
