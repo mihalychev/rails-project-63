@@ -6,8 +6,8 @@ module HexletCode
       SINGLE_TAGS = %w[area base br col command embed hr img input keygen link meta param source track wbr].freeze
 
       class << self
-        def build(tag, attributes, &block)
-          new(tag, attributes).build(&block)
+        def build(tag, attributes, &)
+          new(tag, attributes).build(&)
         end
       end
 
@@ -16,7 +16,7 @@ module HexletCode
         @attributes = attributes
       end
 
-      def build(&block)
+      def build(&)
         raise NotImplementedError
       end
     end

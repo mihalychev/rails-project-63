@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# rubocop: disable Metrics/BlockLength
 RSpec.describe HexletCode do
   it 'has a version number' do
     expect(HexletCode::VERSION).not_to be nil
@@ -13,7 +14,7 @@ RSpec.describe HexletCode do
     let(:attributes) { { url: '/users', abc: 'hehwtf' } }
 
     it 'returns html form tag with attributes' do
-      expect(form_for).to eq '<form action="/users" method="post" abc="hehwtf"></form>'
+      expect(form_for).to eq load_fixture('form_only.html')
     end
 
     context 'with textarea' do
@@ -24,10 +25,8 @@ RSpec.describe HexletCode do
         end
       end
 
-      let(:expected_html) { load_fixture('form_with_textarea.html') }
-
-      it 'returns html form with inputs' do
-        expect(form_for).to eq expected_html
+      it 'returns html form with textarea' do
+        expect(form_for).to eq load_fixture('form_with_textarea.html')
       end
     end
 
@@ -39,11 +38,10 @@ RSpec.describe HexletCode do
         end
       end
 
-      let(:expected_html) { load_fixture('form_with_input.html') }
-
       it 'returns html form with inputs' do
-        expect(form_for).to eq expected_html
+        expect(form_for).to eq load_fixture('form_with_input.html')
       end
     end
   end
 end
+# rubocop: enable Metrics/BlockLength

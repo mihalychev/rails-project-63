@@ -3,8 +3,8 @@
 module HexletCode
   class FormBuilder
     class << self
-      def build(entity, params, template_engine = Tags::HtmlTag, &block)
-        new(entity, template_engine).form(params, &block)
+      def build(entity, params, template_engine = Tags::HtmlTag, &)
+        new(entity, template_engine).form(params, &)
       end
     end
 
@@ -57,7 +57,7 @@ module HexletCode
     end
 
     def build_submit(value)
-      @template_engine.build('input', type: 'submit', value: value)
+      @template_engine.build('input', type: 'submit', value:)
     end
 
     def form_attributes(params)
