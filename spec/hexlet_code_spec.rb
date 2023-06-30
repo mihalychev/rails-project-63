@@ -16,15 +16,30 @@ RSpec.describe HexletCode do
       expect(form_for).to eq '<form action="/users" method="post" abc="hehwtf"></form>'
     end
 
-    context 'with inputs' do
+    context 'with textarea' do
       subject(:form_for) do
         described_class.form_for(entity, attributes) do |f|
-          f.input :name, as: 'text'
+          f.input :name, as: :text
           f.submit 'submit'
         end
       end
 
-      let(:expected_html) { load_fixture('form.html') }
+      let(:expected_html) { load_fixture('form_with_textarea.html') }
+
+      it 'returns html form with inputs' do
+        expect(form_for).to eq expected_html
+      end
+    end
+
+    context 'with inputs' do
+      subject(:form_for) do
+        described_class.form_for(entity, attributes) do |f|
+          f.input :name
+          f.submit 'submit'
+        end
+      end
+
+      let(:expected_html) { load_fixture('form_with_input.html') }
 
       it 'returns html form with inputs' do
         expect(form_for).to eq expected_html

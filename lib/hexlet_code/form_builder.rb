@@ -23,10 +23,14 @@ module HexletCode
 
     def input(field_name, params = {})
       @body += build_label(field_name)
-      @body += build_input(field_name, params)
+      @body += if params[:as] == :text
+                 build_textarea(field_name, params)
+               else
+                 build_input(field_name, params)
+               end
     end
 
-    def submit(value)
+    def submit(value = 'Save')
       @body += build_submit(value)
     end
 
@@ -44,6 +48,14 @@ module HexletCode
       )
     end
 
+    def build_textarea(field_name, params)
+      @template_engine.build(
+        'textarea',
+        name: field_name,
+        **textarea_attributes(params)
+      ) { @entity.public_send(field_name) }
+    end
+
     def build_submit(value)
       @template_engine.build('input', type: 'submit', value: value)
     end
@@ -56,9 +68,18 @@ module HexletCode
       }
     end
 
+    def textarea_attributes(params)
+      {
+        type: params[:type] || 'text',
+        cols: params[:cols] || 20,
+        rows: params[:rows] || 40,
+        **params.except(:as)
+      }
+    end
+
     def input_attributes(field_name, params)
       {
-        type: params[:as] || 'text',
+        type: params[:type] || 'text',
         value: @entity.public_send(field_name),
         **params.except(:as)
       }
