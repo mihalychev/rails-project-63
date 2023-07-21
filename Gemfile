@@ -18,5 +18,5 @@ group :test do
 end
 
 group :development, :test do
-  gem 'rspec', '~> 3.0'
+  gem 'minitest'
 end

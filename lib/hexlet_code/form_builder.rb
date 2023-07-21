@@ -1,44 +1,42 @@
 # frozen_string_literal: true
 
 module HexletCode
+  autoload(:Inputs, 'hexlet_code/inputs.rb')
+
   class FormBuilder
-    extend Dry::Initializer
-
-    param :entity
-    param :params
-
-    option :input_builder, default: -> { InputBuilder }
-    option :textarea_builder, default: -> { TextareaBuilder }
-    option :submit_builder, default: -> { SubmitBuilder }
-
-    def build
-      form_structure
+    def initialize(
+      entity,
+      params,
+      text_input = Inputs::TextInput,
+      string_input = Inputs::StringInput,
+      submit_input = Inputs::SubmitInput
+    )
+      @entity = entity
+      @params = params
+      @text_input = text_input
+      @string_input = string_input
+      @submit_input = submit_input
     end
 
     def input(field_name, attributes = {})
-      if attributes[:as] == :text
-        textarea = textarea_builder.new(entity, field_name, attributes)
-        form_structure[:value] += textarea.build
-      else
-        input = input_builder.new(entity, field_name, attributes)
-        form_structure[:value] += input.build
-      end
+      as = attributes[:as] == :text ? 'text' : 'string'
+      input = instance_variable_get("@#{as}_input")
+      form_structure[:value] += input.new(
+        @entity, field_name, attributes
+      ).structure
     end
 
     def submit(value = 'Save', attributes = {})
-      submit = submit_builder.new(entity, value, attributes)
-      form_structure[:value] << submit.build
+      form_structure[:value] << @submit_input.new(value, attributes).structure
     end
-
-    private
 
     def form_structure
       @form_structure ||= {
         name: 'form',
         attributes: {
-          action: params[:url] || '/',
-          method: params[:method] || 'post',
-          **params.except(:url, :method)
+          action: @params[:url] || '/',
+          method: @params[:method] || 'post',
+          **@params.except(:url, :method)
         },
         value: []
       }

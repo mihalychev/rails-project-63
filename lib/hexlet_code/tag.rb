@@ -2,17 +2,17 @@
 
 module HexletCode
   class Tag
-    extend Dry::Initializer
-
     SINGLE_TAGS = %w[area base br col command embed hr img input keygen link meta param source track wbr].freeze
-
-    param :tag
-    param :attributes
 
     class << self
       def build(tag, attributes, &)
         new(tag, attributes).build(&)
       end
+    end
+
+    def initialize(tag, attributes)
+      @tag = tag
+      @attributes = attributes
     end
 
     def build(&block)
